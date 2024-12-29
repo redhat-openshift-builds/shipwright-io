@@ -1,0 +1,4 @@
+[submodule "cli"]
+	path = cli
+	url = https://github.com/shipwright-io/cli.git
+	branch = main
