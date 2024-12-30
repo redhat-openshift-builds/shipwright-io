@@ -1,8 +1,8 @@
 [submodule "cli"]
 	path = cli
 	url = https://github.com/shipwright-io/cli.git
-	branch = main
+	branch = release-v0.14
 [submodule "build"]
 	path = build
 	url = https://github.com/shipwright-io/build.git
-	branch = main
+	branch = release-v0.14
