@@ -1,8 +1,10 @@
 FROM registry.access.redhat.com/ubi9/go-toolset@sha256:b23212b6a296e95cbed5dd415d4cd5567db9e8057aa08e291f1fddc087cea944 AS builder
 
+ENV GOEXPERIMENT=strictfipsruntime
+
 COPY build .
 
-RUN CGO_ENABLED=0 GO111MODULE=on go build -a -mod=vendor -ldflags="-s -w" -o openshift-builds-image-bundler ./cmd/bundle
+RUN CGO_ENABLED=1 GO111MODULE=on go build -a -mod=vendor -ldflags="-s -w" -tags="strictfipsruntime" -o openshift-builds-image-bundler ./cmd/bundle
 
 FROM registry.access.redhat.com/ubi9-minimal@sha256:d85040b6e3ed3628a89683f51a38c709185efc3fb552db2ad1b9180f2a6c38be
 
@@ -16,6 +18,8 @@ RUN \
 
 COPY --from=builder /opt/app-root/src/openshift-builds-image-bundler /ko-app/bundle
 COPY LICENSE /licenses/
+
+USER 1001
 
 ENTRYPOINT ["/ko-app/bundle"]
 
