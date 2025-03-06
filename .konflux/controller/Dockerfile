@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/go-toolset@sha256:703937e152d049e62f5aa8ab274a4253468ab70f7b790d92714b37cf0a140555 AS builder
+FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:v1.23.4 AS builder
 
 ENV GOEXPERIMENT=strictfipsruntime
 
