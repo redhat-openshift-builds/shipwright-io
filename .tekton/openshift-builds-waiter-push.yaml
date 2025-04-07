@@ -8,18 +8,17 @@ metadata:
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: |
       event == "push" &&
-      target_branch == "main" &&
+      target_branch == "builds-1.4" &&
       (
         files.all.exists(x, x.matches('build/cmd/waiter/|.konflux/waiter/')) ||
         files.all.exists(x, x.matches('build/go.mod|build/go.sum')) ||
         files.all.exists(x, x.matches('.tekton/openshift-builds-waiter-push.yaml'))
       )
-  creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: openshift-builds
-    appstudio.openshift.io/component: openshift-builds-waiter
+    appstudio.openshift.io/application: openshift-builds-1-4
+    appstudio.openshift.io/component: openshift-builds-waiter-1-4
     pipelines.appstudio.openshift.io/type: build
-  name: openshift-builds-waiter-on-push
+  name: openshift-builds-waiter-1-4-on-push
   namespace: rh-openshift-builds-tenant
 spec:
   params:
@@ -28,7 +27,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/rh-openshift-builds-tenant/openshift-builds-waiter:{{revision}}
+    value: quay.io/redhat-user-workloads/rh-openshift-builds-tenant/openshift-builds-waiter-1-4:{{revision}}
   - name: dockerfile
     value: .konflux/waiter/Dockerfile
   - name: build-source-image
