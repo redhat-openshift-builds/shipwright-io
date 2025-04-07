@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/go-toolset@sha256:703937e152d049e62f5aa8ab274a4253468ab70f7b790d92714b37cf0a140555 AS builder
+FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_9_1.23@sha256:44fd8f88f3b6463cda15571260f9ca3a0b78d3c8c8827a338e04ab3a23581a88 AS builder
 
 ENV GOEXPERIMENT=strictfipsruntime
 
@@ -17,7 +17,7 @@ RUN \
   mkdir /.docker && \
   chown 1000:1000 /.docker
 
-COPY --from=builder /opt/app-root/src/openshift-builds-waiter /ko-app/waiter
+COPY --from=builder /openshift-builds-waiter /ko-app/waiter
 COPY LICENSE /licenses/
 
 USER 1001
