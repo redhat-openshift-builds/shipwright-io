@@ -43,6 +43,7 @@ spec:
   - name: build-platforms
     value:
       - linux/x86_64
+      - linux/arm64
   - name: prefetch-input
     value: '{"packages": [{"type": "gomod", "path": "build"},{"type": "rpm","path": ".konflux/git-cloner"}]}'
   pipelineRef:
