@@ -12,7 +12,7 @@ metadata:
       target_branch == "main" &&
       (
         files.all.exists(x, x.matches('build/cmd/waiter/|.konflux/waiter/')) ||
-        files.all.exists(x, x.matches('build/go.mod|build/go.sum')) ||
+        files.all.exists(x, x.matches('build/go.mod|build/go.sum|rpms.lock.yaml')) ||
         files.all.exists(x, x.matches('.tekton/openshift-builds-waiter-pull-request.yaml'))
       )
   creationTimestamp: null
@@ -45,7 +45,7 @@ spec:
       - linux/x86_64
       - linux/arm64
   - name: prefetch-input
-    value: '{"packages": [{"type": "gomod", "path": "build"},{"type": "rpm","path": ".konflux/waiter"}]}'
+    value: '{"packages": [{"type": "gomod", "path": "build"},{"type": "rpm"}]}'
   pipelineRef:
     resolver: git
     params:
