@@ -12,22 +12,27 @@ RUN \
   microdnf --assumeyes --nodocs install git git-lfs && \
   microdnf clean all && \
   rm -rf /var/cache/yum && \
+  # The following setup is necessary so that this image can run as any user
+  mkdir -p /shared-home/.docker /shared-home/.ssh && chmod -R 0777 /shared-home && \
+  # This is the default user that will be used when strategy steps use different runAs configuration.
+  # This must be in synchronization with our default configuration.
   echo 'nonroot:x:1000:1000:nonroot:/:/sbin/nologin' > /etc/passwd && \
-  echo 'nonroot:x:1000:' > /etc/group && \
-  mkdir /.docker && chown 1000:1000 /.docker && \
-  mkdir /.ssh && chown 1000:1000 /.ssh
+  echo 'nonroot:x:1000:' > /etc/group
+
+ENV PATH="$PATH:/ko-app"
+ENV HOME="/shared-home"
 
 COPY --from=builder /openshift-builds-git-cloner /ko-app/git
 COPY LICENSE /licenses/
 
-USER 1001
+USER 1000
 
 ENTRYPOINT ["/ko-app/git"]
 
 LABEL \
     com.redhat.component="openshift-builds-git-cloner" \
     name="openshift-builds/git-cloner" \
-    version="v1.3.0" \
+    version="v1.4.0" \
     summary="Red Hat OpenShift Builds Git Cloner" \
     maintainer="openshift-builds@redhat.com" \
     description="Red Hat OpenShift Builds Git Cloner" \
