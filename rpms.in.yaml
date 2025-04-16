@@ -1,5 +1,5 @@
 contentOrigin:
   repofiles:
     - ./ubi.repo
-packages: [tar]
+packages: [git, git-lfs, tar]
 arches: [x86_64, aarch64, s390x, ppc64le]

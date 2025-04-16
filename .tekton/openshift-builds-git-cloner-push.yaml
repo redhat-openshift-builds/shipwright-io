@@ -11,7 +11,7 @@ metadata:
       target_branch == "builds-1.4" &&
       (
         files.all.exists(x, x.matches('build/cmd/git/|build/pkg/git/|.konflux/git-cloner/')) ||
-        files.all.exists(x, x.matches('build/go.mod|build/go.sum')) ||
+        files.all.exists(x, x.matches('build/go.mod|build/go.sum|rpms.lock.yaml')) ||
         files.all.exists(x, x.matches('.tekton/openshift-builds-git-cloner-push.yaml'))
       )
   labels:
@@ -43,7 +43,7 @@ spec:
       - linux/ppc64le
       - linux/s390x
   - name: prefetch-input
-    value: '{"packages": [{"type": "gomod", "path": "build"},{"type": "rpm","path": ".konflux/git-cloner"}]}'
+    value: '{"packages": [{"type": "gomod", "path": "build"},{"type": "rpm"}]}'
   pipelineRef:
     resolver: git
     params:
