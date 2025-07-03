@@ -1,4 +1,4 @@
-FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_9_1.23 AS builder
+FROM registry.redhat.io/ubi9/go-toolset:1.23 AS builder
 
 ENV GOEXPERIMENT=strictfipsruntime
 
@@ -6,7 +6,7 @@ COPY build .
 
 RUN CGO_ENABLED=1 GO111MODULE=on go build -a -mod=vendor -ldflags="-s -w" -tags="strictfipsruntime" -o openshift-builds-waiter ./cmd/waiter
 
-FROM registry.access.redhat.com/ubi9-minimal@sha256:ac61c96b93894b9169221e87718733354dd3765dd4a62b275893c7ff0d876869
+FROM registry.access.redhat.com/ubi9-minimal:9.6
 
 RUN \
   microdnf --assumeyes --nodocs install tar && \
@@ -22,7 +22,7 @@ RUN \
 ENV PATH="$PATH:/ko-app"
 ENV HOME="/shared-home"
 
-COPY --from=builder /openshift-builds-waiter /ko-app/waiter
+COPY --from=builder /opt/app-root/src/openshift-builds-waiter /ko-app/waiter
 COPY LICENSE /licenses/
 
 USER 1000
