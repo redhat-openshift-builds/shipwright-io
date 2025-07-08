@@ -6,7 +6,7 @@ COPY build .
 
 RUN CGO_ENABLED=1 GO111MODULE=on go build -a -mod=vendor -ldflags="-s -w" -tags="strictfipsruntime" -o openshift-builds-webhook ./cmd/shipwright-build-webhook
 
-FROM registry.access.redhat.com/ubi9-minimal:9.6
+FROM registry.access.redhat.com/ubi9-minimal:9.6-1751286687
 
 ENV PATH="$PATH:/ko-app"
 
