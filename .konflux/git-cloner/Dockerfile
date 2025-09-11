@@ -6,7 +6,7 @@ COPY build .
 
 RUN CGO_ENABLED=1 GO111MODULE=on go build -a -mod=vendor -ldflags="-s -w" -tags="strictfipsruntime" -o openshift-builds-git-cloner ./cmd/git
 
-FROM registry.redhat.io/ubi9-minimal:9.6
+FROM registry.redhat.io/ubi9/ubi-minimal@sha256:2f06ae0e6d3d9c4f610d32c480338eef474867f435d8d28625f2985e8acde6e8
 
 RUN \
   microdnf --assumeyes --nodocs install git git-lfs && \
@@ -32,7 +32,7 @@ ENTRYPOINT ["/ko-app/git"]
 LABEL \
     com.redhat.component="openshift-builds-git-cloner" \
     name="openshift-builds/git-cloner" \
-    version="v1.4.0" \
+    version="v1.5.0" \
     summary="Red Hat OpenShift Builds Git Cloner" \
     maintainer="openshift-builds@redhat.com" \
     description="Red Hat OpenShift Builds Git Cloner" \

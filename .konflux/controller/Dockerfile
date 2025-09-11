@@ -20,7 +20,7 @@ ENTRYPOINT ["./openshift-builds-controller"]
 LABEL \
     com.redhat.component="openshift-builds-controller" \
     name="openshift-builds/controller" \
-    version="v1.4.0" \
+    version="v1.5.0" \
     summary="Red Hat OpenShift Builds Controller" \
     maintainer="openshift-builds@redhat.com" \
     description="Red Hat OpenShift Builds Controller" \
