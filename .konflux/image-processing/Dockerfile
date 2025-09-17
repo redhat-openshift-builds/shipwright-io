@@ -31,7 +31,7 @@ ENTRYPOINT ["/ko-app/image-processing"]
 LABEL \
     com.redhat.component="openshift-builds-image-processing" \
     name="openshift-builds/image-processing" \
-    version="v1.4.0" \
+    version="v1.6.0" \
     summary="Red Hat OpenShift Builds Image Processing" \
     maintainer="openshift-builds@redhat.com" \
     description="Red Hat OpenShift Builds Image Processing" \

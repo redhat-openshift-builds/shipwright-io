@@ -32,7 +32,7 @@ ENTRYPOINT ["/ko-app/git"]
 LABEL \
     com.redhat.component="openshift-builds-git-cloner" \
     name="openshift-builds/git-cloner" \
-    version="v1.4.0" \
+    version="v1.6.0" \
     summary="Red Hat OpenShift Builds Git Cloner" \
     maintainer="openshift-builds@redhat.com" \
     description="Red Hat OpenShift Builds Git Cloner" \

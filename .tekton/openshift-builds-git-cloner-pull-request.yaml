@@ -9,7 +9,7 @@ metadata:
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: |
       event == "pull_request" &&
-      target_branch == "main" &&
+      target_branch == "builds-1.6" &&
       (
         files.all.exists(x, x.matches('build/cmd/git/|build/pkg/git/|.konflux/git-cloner/')) ||
         files.all.exists(x, x.matches('build/go.mod|build/go.sum|rpms.lock.yaml')) ||
@@ -17,10 +17,10 @@ metadata:
       )
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: openshift-builds
-    appstudio.openshift.io/component: openshift-builds-git-cloner
+    appstudio.openshift.io/application: openshift-builds-1-6
+    appstudio.openshift.io/component: openshift-builds-git-cloner-1-6
     pipelines.appstudio.openshift.io/type: build
-  name: openshift-builds-git-cloner-on-pull-request
+  name: openshift-builds-git-cloner-1-6-on-pull-request
   namespace: rh-openshift-builds-tenant
 spec:
   params:
@@ -29,7 +29,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/rh-openshift-builds-tenant/openshift-builds-git-cloner:on-pr-{{revision}}
+    value: quay.io/redhat-user-workloads/rh-openshift-builds-tenant/openshift-builds-git-cloner-1-6:on-pr-{{revision}}
   - name: image-expires-after
     value: 5d
   - name: dockerfile
@@ -56,7 +56,7 @@ spec:
       value: /pipelines/konflux-build-multi-platform.yaml
     resolver: git
   taskRunTemplate:
-    serviceAccountName: build-pipeline-openshift-builds-git-cloner
+    serviceAccountName: build-pipeline-openshift-builds-git-cloner-1-6
   workspaces:
   - name: git-auth
     secret:
