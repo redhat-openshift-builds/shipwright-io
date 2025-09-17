@@ -8,7 +8,7 @@ metadata:
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: |
       event == "push" &&
-      target_branch == "main" &&
+      target_branch == "builds-1.6" &&
       (
         files.all.exists(x, x.matches('build/cmd/bundle/|build/pkg/bundle/|pkg/image/|.konflux/image-bundler/')) ||
         files.all.exists(x, x.matches('build/go.mod|build/go.sum')) ||
@@ -16,10 +16,10 @@ metadata:
       )
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: openshift-builds
-    appstudio.openshift.io/component: openshift-builds-image-bundler
+    appstudio.openshift.io/application: openshift-builds-1-6
+    appstudio.openshift.io/component: openshift-builds-image-bundler-1-6
     pipelines.appstudio.openshift.io/type: build
-  name: openshift-builds-image-bundler-on-push
+  name: openshift-builds-image-bundler-1-6-on-push
   namespace: rh-openshift-builds-tenant
 spec:
   params:
@@ -28,7 +28,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/rh-openshift-builds-tenant/openshift-builds-image-bundler:{{revision}}
+    value: quay.io/redhat-user-workloads/rh-openshift-builds-tenant/openshift-builds-image-bundler-1-6:{{revision}}
   - name: dockerfile
     value: .konflux/image-bundler/Dockerfile
   - name: build-source-image
@@ -53,7 +53,7 @@ spec:
       value: /pipelines/konflux-build-multi-platform.yaml
     resolver: git
   taskRunTemplate:
-    serviceAccountName: build-pipeline-openshift-builds-image-bundler
+    serviceAccountName: build-pipeline-openshift-builds-image-bundler-1-6
   workspaces:
   - name: git-auth
     secret:
