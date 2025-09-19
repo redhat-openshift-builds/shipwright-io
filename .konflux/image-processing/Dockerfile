@@ -6,7 +6,7 @@ COPY build .
 
 RUN CGO_ENABLED=1 GO111MODULE=on go build -a -mod=vendor -ldflags="-s -w" -tags="strictfipsruntime" -o openshift-builds-image-processing ./cmd/image-processing
 
-FROM registry.redhat.io/ubi9-minimal:9.6
+FROM registry.redhat.io/ubi9-minimal:9.6-1758184547
 
 RUN \
   microdnf clean all && \
