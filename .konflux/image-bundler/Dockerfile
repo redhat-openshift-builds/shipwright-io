@@ -20,7 +20,7 @@ ENTRYPOINT ["/ko-app/bundle"]
 LABEL \
     com.redhat.component="openshift-builds-image-bundler" \
     name="openshift-builds/image-bundler" \
-    version="v1.4.0" \
+    version="v1.5.0" \
     summary="Red Hat OpenShift Builds Image Bundler" \
     maintainer="openshift-builds@redhat.com" \
     description="Red Hat OpenShift Builds Image Bundler" \
