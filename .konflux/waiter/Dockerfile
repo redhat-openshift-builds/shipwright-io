@@ -31,8 +31,9 @@ ENTRYPOINT ["/ko-app/waiter"]
 
 LABEL \
     com.redhat.component="openshift-builds-waiter" \
-    name="openshift-builds/waiter" \
+    name="openshift-builds/openshift-builds-waiters-rhel9" \
     version="v1.4.0" \
+    cpe="cpe:/a:redhat:openshift_builds:1.4::el9" \
     summary="Red Hat OpenShift Builds Waiter" \
     maintainer="openshift-builds@redhat.com" \
     description="Red Hat OpenShift Builds Waiter" \
