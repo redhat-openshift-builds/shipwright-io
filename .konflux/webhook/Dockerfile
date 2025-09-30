@@ -19,11 +19,12 @@ ENTRYPOINT ["./openshift-builds-webhook"]
 
 LABEL \
     com.redhat.component="openshift-builds-webhook" \
-    name="openshift-builds/webhook" \
+    name="openshift-builds/openshift-builds-webhook-rhel9" \
     version="v1.6.0" \
     summary="Red Hat OpenShift Builds webhook" \
     maintainer="openshift-builds@redhat.com" \
     description="Red Hat OpenShift Builds webhook" \
     io.k8s.description="Red Hat OpenShift Builds Webhook" \
     io.k8s.display-name="Red Hat OpenShift Builds Webhook" \
-    io.openshift.tags="builds,conversion-webhook"
+    io.openshift.tags="builds,conversion-webhook" \
+    cpe="cpe:/a:redhat:openshift_builds:1.6::el9"

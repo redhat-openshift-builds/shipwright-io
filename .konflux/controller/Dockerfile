@@ -19,11 +19,12 @@ ENTRYPOINT ["./openshift-builds-controller"]
 
 LABEL \
     com.redhat.component="openshift-builds-controller" \
-    name="openshift-builds/controller" \
+    name="openshift-builds/openshift-builds-controller-rhel9" \
     version="v1.6.0" \
     summary="Red Hat OpenShift Builds Controller" \
     maintainer="openshift-builds@redhat.com" \
     description="Red Hat OpenShift Builds Controller" \
     io.k8s.description="Red Hat OpenShift Builds Controller" \
     io.k8s.display-name="Red Hat OpenShift Builds Controller" \
-    io.openshift.tags="builds,controller"
+    io.openshift.tags="builds,controller" \
+    cpe="cpe:/a:redhat:openshift_builds:1.6::el9"
