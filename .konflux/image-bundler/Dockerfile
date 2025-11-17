@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi9/go-toolset:1.24 AS builder
+FROM registry.redhat.io/ubi9/go-toolset@sha256:71f121a44270e46a17a548d6b92096a1a0fb56db44927ad318d095177d6dce4b AS builder
 
 ENV GOEXPERIMENT=strictfipsruntime
 
@@ -20,11 +20,15 @@ ENTRYPOINT ["/ko-app/bundle"]
 LABEL \
     com.redhat.component="openshift-builds-image-bundler" \
     name="openshift-builds/openshift-builds-image-bundler-rhel9" \
-    version="v1.6.0" \
+    version="v1.6.1" \
     summary="Red Hat OpenShift Builds Image Bundler" \
     maintainer="openshift-builds@redhat.com" \
     description="Red Hat OpenShift Builds Image Bundler" \
     io.k8s.description="Red Hat OpenShift Builds Image Bundler" \
     io.k8s.display-name="Red Hat OpenShift Builds Image Bundler" \
     io.openshift.tags="builds,image-bundler" \
-    cpe="cpe:/a:redhat:openshift_builds:1.6::el9"
+    cpe="cpe:/a:redhat:openshift_builds:1.6::el9" \
+    distribution-scope="restricted" \
+    release="2" \
+    url="https://github.com/redhat-openshift-builds/shipwright-io" \
+    vendor="Red Hat, Inc."
