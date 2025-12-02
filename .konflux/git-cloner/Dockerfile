@@ -31,7 +31,7 @@ ENTRYPOINT ["/ko-app/git"]
 
 LABEL \
     com.redhat.component="openshift-builds-git-cloner" \
-    name="openshift-builds/git-cloner" \
+    name="openshift-builds/openshift-builds-git-cloner-rhel9" \
     version="v1.5.2" \
     summary="Red Hat OpenShift Builds Git Cloner" \
     maintainer="openshift-builds@redhat.com" \
@@ -42,4 +42,5 @@ LABEL \
     distribution-scope="public" \
     url="https://catalog.redhat.com/en/software/container-stacks/detail/6565a473b9526bf84dae4d85" \
     vendor="Red Hat, Inc." \
-    release="1.5.2"
+    release="1.5.2" \
+    cpe="cpe:/a:redhat:openshift_builds:1.5::el9"
