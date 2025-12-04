@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi9/go-toolset:1.24 AS builder
+FROM registry.redhat.io/ubi9/go-toolset@sha256:2e8adc5be8eba060e919a6f7309a7b5ef09dd72d3ae9e747b9eb02e96f35a0f5 AS builder
 
 ENV GOEXPERIMENT=strictfipsruntime
 
@@ -6,7 +6,7 @@ COPY build .
 
 RUN CGO_ENABLED=1 GO111MODULE=on go build -a -mod=vendor -ldflags="-s -w" -tags="strictfipsruntime" -o openshift-builds-waiter ./cmd/waiter
 
-FROM registry.access.redhat.com/ubi9-minimal:9.6
+FROM registry.redhat.io/ubi9-minimal@sha256:6fc28bcb6776e387d7a35a2056d9d2b985dc4e26031e98a2bd35a7137cd6fd71
 
 RUN \
   microdnf --assumeyes --nodocs install tar && \
@@ -31,11 +31,16 @@ ENTRYPOINT ["/ko-app/waiter"]
 
 LABEL \
     com.redhat.component="openshift-builds-waiter" \
-    name="openshift-builds/waiter" \
-    version="v1.4.0" \
-    summary="Red Hat OpenShift Builds Waiter" \
-    maintainer="openshift-builds@redhat.com" \
+    cpe="cpe:/a:redhat:openshift_builds:1.6::el9" \
     description="Red Hat OpenShift Builds Waiter" \
+    distribution-scope="public" \
     io.k8s.description="Red Hat OpenShift Builds Waiter" \
     io.k8s.display-name="Red Hat OpenShift Builds Waiter" \
-    io.openshift.tags="builds,waiter"
+    io.openshift.tags="builds,waiter" \
+    maintainer="openshift-builds@redhat.com" \
+    name="openshift-builds/openshift-builds-waiter-rhel9" \
+    release="2" \
+    summary="Red Hat OpenShift Builds Waiter" \
+    url="https://github.com/redhat-openshift-builds/shipwright-io" \
+    vendor="Red Hat, Inc." \
+    version="v1.6.1"
