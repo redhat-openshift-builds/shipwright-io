@@ -6,7 +6,7 @@ COPY build .
 
 RUN CGO_ENABLED=1 GO111MODULE=on go build -a -mod=vendor -ldflags="-s -w" -tags="strictfipsruntime" -o openshift-builds-waiter ./cmd/waiter
 
-FROM registry.access.redhat.com/ubi9-minimal:9.6
+FROM registry.access.redhat.com/ubi9-minimal:9.7-1764794109
 
 RUN \
   microdnf --assumeyes --nodocs install tar && \
