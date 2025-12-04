@@ -10,11 +10,10 @@ metadata:
       event == "push" &&
       target_branch == "main" &&
       (
-        files.all.exists(x, x.matches('build/cmd/git/|build/pkg/git/|.konflux/git-cloner/')) ||
-        files.all.exists(x, x.matches('build/go.mod|build/go.sum|rpms.lock.yaml')) ||
-        files.all.exists(x, x.matches('.tekton/openshift-builds-git-cloner-push.yaml'))
+        files.all.exists(x, x.matches('rpms.lock.yaml')) ||
+        files.all.exists(x, x.matches('.tekton/openshift-builds-git-cloner-push.yaml|.konflux/git-cloner')) ||
+        event_title.startsWith("Update build digest")
       )
-  creationTimestamp: null
   labels:
     appstudio.openshift.io/application: openshift-builds
     appstudio.openshift.io/component: openshift-builds-git-cloner
