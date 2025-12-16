@@ -11,11 +11,9 @@ metadata:
       event == "pull_request" &&
       target_branch == "main" &&
       (
-        files.all.exists(x, x.matches('build/cmd/bundle/|build/pkg/bundle/|build/pkg/image/|.konflux/image-bundler/')) ||
-        files.all.exists(x, x.matches('build/go.mod|build/go.sum')) ||
-        files.all.exists(x, x.matches('.tekton/openshift-builds-image-bundler-pull-request.yaml'))
+        files.all.exists(x, x.matches('.tekton/openshift-builds-image-bundler-pull-request.yaml|.konflux/image-bundler')) ||
+        event_title.startsWith("Update build digest")
       )
-  creationTimestamp: null
   labels:
     appstudio.openshift.io/application: openshift-builds
     appstudio.openshift.io/component: openshift-builds-image-bundler

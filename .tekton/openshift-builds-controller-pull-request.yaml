@@ -11,11 +11,9 @@ metadata:
       event == "pull_request" &&
       target_branch == "main" &&
       (
-        files.all.exists(x, x.matches('build/version/|build/pkg/controller/|build/pkg/client|build/pkg/reconciler|build/pkg/volumes|build/pkg/validate|build/pkg/env|build/pkg/metrics/|build/pkg/apis/|build/pkg/config/|build/pkg/ctxlog/|build/cmd/shipwright-build-controller/|.konflux/controller/')) ||
-        files.all.exists(x, x.matches('build/go.mod|build/go.sum')) ||
-        files.all.exists(x, x.matches('.tekton/openshift-builds-controller-pull-request.yaml'))
+        files.all.exists(x, x.matches('.tekton/openshift-builds-controller-pull-request.yaml|.konflux/controller')) ||
+        event_title.startsWith("Update build digest")
       )
-  creationTimestamp: null
   labels:
     appstudio.openshift.io/application: openshift-builds
     appstudio.openshift.io/component: openshift-builds-controller

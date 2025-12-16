@@ -10,11 +10,9 @@ metadata:
       event == "push" &&
       target_branch == "main" &&
       (
-        files.all.exists(x, x.matches('build/cmd/image-processing/|build/pkg/image/|.konflux/image-processing/')) ||
-        files.all.exists(x, x.matches('build/go.mod|build/go.sum')) ||
-        files.all.exists(x, x.matches('.tekton/openshift-builds-image-processing-push.yaml'))
+        files.all.exists(x, x.matches('.tekton/openshift-builds-image-processing-push.yaml|.konflux/image-processing')) ||
+        event_title.startsWith("Update build digest")
       )
-  creationTimestamp: null
   labels:
     appstudio.openshift.io/application: openshift-builds
     appstudio.openshift.io/component: openshift-builds-image-processing

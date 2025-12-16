@@ -10,11 +10,9 @@ metadata:
       event == "push" &&
       target_branch == "main" &&
       (
-        files.all.exists(x, x.matches('build/version/|build/pkg/webhook/|build/pkg/ctxlog/|build/cmd/shipwright-build-webhook/|.konflux/webhook/')) ||
-        files.all.exists(x, x.matches('build/go.mod|build/go.sum')) ||
-        files.all.exists(x, x.matches('.tekton/openshift-builds-webhook-push.yaml'))
+        files.all.exists(x, x.matches('.tekton/openshift-builds-webhook-push.yaml|.konflux/webhook')) ||
+        event_title.startsWith("Update build digest")
       )
-  creationTimestamp: null
   labels:
     appstudio.openshift.io/application: openshift-builds
     appstudio.openshift.io/component: openshift-builds-webhook
