@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi9/go-toolset@sha256:20b655db80d929d3a3828947d718746f0aee3159c86620df330e58cbf954970e AS builder
+FROM registry.redhat.io/ubi9/go-toolset@sha256:359dd4c6c4255b3f7bce4dc15ffa5a9aa65a401f819048466fa91baa8244a793 AS builder
 
 ENV GOEXPERIMENT=strictfipsruntime
 
@@ -31,7 +31,7 @@ ENTRYPOINT ["/ko-app/git"]
 
 LABEL \
     com.redhat.component="openshift-builds-git-cloner" \
-    cpe="cpe:/a:redhat:openshift_builds:1.6::el9" \
+    cpe="cpe:/a:redhat:openshift_builds:1.7::el9" \
     description="Red Hat OpenShift Builds git-cloner" \
     distribution-scope="public" \
     io.k8s.description="Red Hat OpenShift Builds Git Cloner" \
@@ -39,8 +39,8 @@ LABEL \
     io.openshift.tags="builds,git-cloner" \
     maintainer="openshift-builds@redhat.com" \
     name="openshift-builds/openshift-builds-git-cloner-rhel9" \
-    release="2" \
+    release="1" \
     summary="Red Hat OpenShift Builds git Cloner" \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
     vendor="Red Hat, Inc." \
-    version="v1.6.1"
+    version="v1.7.0"
