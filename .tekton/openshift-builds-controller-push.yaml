@@ -8,16 +8,16 @@ metadata:
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: |
       event == "push" &&
-      target_branch == "main" &&
+      target_branch == "builds-1.7" &&
       (
         files.all.exists(x, x.matches('.tekton/openshift-builds-controller-push.yaml|.konflux/controller')) ||
         event_title.startsWith("Update build digest")
       )
   labels:
-    appstudio.openshift.io/application: openshift-builds
-    appstudio.openshift.io/component: openshift-builds-controller
+    appstudio.openshift.io/application: openshift-builds-1-7
+    appstudio.openshift.io/component: openshift-builds-controller-1-7
     pipelines.appstudio.openshift.io/type: build
-  name: openshift-builds-controller-on-push
+  name: openshift-builds-controller-1-7-on-push
   namespace: rh-openshift-builds-tenant
 spec:
   params:
@@ -26,7 +26,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/rh-openshift-builds-tenant/openshift-builds-controller:{{revision}}
+    value: quay.io/redhat-user-workloads/rh-openshift-builds-tenant/openshift-builds-controller-1-7:{{revision}}
   - name: dockerfile
     value: .konflux/controller/Dockerfile
   - name: build-source-image
@@ -51,7 +51,7 @@ spec:
       value: /pipelines/konflux-build-multi-platform.yaml
     resolver: git
   taskRunTemplate:
-    serviceAccountName: build-pipeline-openshift-builds-controller
+    serviceAccountName: build-pipeline-openshift-builds-controller-1-7
   workspaces:
   - name: git-auth
     secret:
