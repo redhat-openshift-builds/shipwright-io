@@ -8,7 +8,7 @@ metadata:
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: |
       event == "push" &&
-      target_branch == "main" &&
+      target_branch == "builds-1.5" &&
       (
         files.all.exists(x, x.matches('.tekton/openshift-builds-client-push.yaml|.konflux/client')) ||
         event_title.startsWith("chore(deps): update cli digest") ||
