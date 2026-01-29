@@ -12,7 +12,8 @@ metadata:
       target_branch == "builds-1.7" &&
       (
         files.all.exists(x, x.matches('.tekton/openshift-builds-controller-pull-request.yaml|.konflux/controller')) ||
-        event_title.startsWith("Update build digest")
+        event_title.startsWith("chore(deps): update build digest") ||
+        files.all.exists(x, x.matches('build/**'))
       )
   labels:
     appstudio.openshift.io/application: openshift-builds-1-7
