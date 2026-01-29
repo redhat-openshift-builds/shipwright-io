@@ -12,7 +12,8 @@ metadata:
       target_branch == "main" &&
       (
         files.all.exists(x, x.matches('.tekton/openshift-builds-image-processing-pull-request.yaml|.konflux/image-processing')) ||
-        event_title.startsWith("Update build digest")
+        event_title.startsWith("chore(deps): update build digest") ||
+        files.all.exists(x, x.matches('build/**'))
       )
   labels:
     appstudio.openshift.io/application: openshift-builds

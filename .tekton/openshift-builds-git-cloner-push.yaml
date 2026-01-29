@@ -12,7 +12,8 @@ metadata:
       (
         files.all.exists(x, x.matches('rpms.lock.yaml')) ||
         files.all.exists(x, x.matches('.tekton/openshift-builds-git-cloner-push.yaml|.konflux/git-cloner')) ||
-        event_title.startsWith("Update build digest")
+        event_title.startsWith("chore(deps): update build digest") ||
+        files.all.exists(x, x.matches('build/**'))
       )
   labels:
     appstudio.openshift.io/application: openshift-builds
