@@ -3,15 +3,16 @@ kind: PipelineRun
 metadata:
   annotations:
     build.appstudio.openshift.io/repo: https://github.com/redhat-openshift-builds/shipwright-io?rev={{revision}}
-    build.appstudio.redhat.com/commit_sha: '{{revision}}'
-    build.appstudio.redhat.com/target_branch: '{{target_branch}}'
+    build.appstudio.redhat.com/commit_sha: "{{revision}}"
+    build.appstudio.redhat.com/target_branch: "{{target_branch}}"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: |
       event == "push" &&
       target_branch == "builds-1.7" &&
       (
         files.all.exists(x, x.matches('.tekton/openshift-builds-image-processing-push.yaml|.konflux/image-processing')) ||
-        event_title.startsWith("Update build digest")
+        event_title.startsWith("chore(deps): update build digest") ||
+        files.all.exists(x, x.matches('^build/.*'))
       )
   labels:
     appstudio.openshift.io/application: openshift-builds-1-7
@@ -21,39 +22,39 @@ metadata:
   namespace: rh-openshift-builds-tenant
 spec:
   params:
-  - name: git-url
-    value: '{{source_url}}'
-  - name: revision
-    value: '{{revision}}'
-  - name: output-image
-    value: quay.io/redhat-user-workloads/rh-openshift-builds-tenant/openshift-builds-image-processing-1-7:{{revision}}
-  - name: dockerfile
-    value: .konflux/image-processing/Dockerfile
-  - name: build-source-image
-    value: "true"
-  - name: hermetic
-    value: "true"
-  - name: build-platforms
-    value:
-    - linux/x86_64
-    - linux/arm64
-    - linux/ppc64le
-    - linux/s390x
-  - name: prefetch-input
-    value: '{"packages": [{"type": "gomod", "path": "build"}]}'
+    - name: git-url
+      value: "{{source_url}}"
+    - name: revision
+      value: "{{revision}}"
+    - name: output-image
+      value: quay.io/redhat-user-workloads/rh-openshift-builds-tenant/openshift-builds-image-processing-1-7:{{revision}}
+    - name: dockerfile
+      value: .konflux/image-processing/Dockerfile
+    - name: build-source-image
+      value: "true"
+    - name: hermetic
+      value: "true"
+    - name: build-platforms
+      value:
+        - linux/x86_64
+        - linux/arm64
+        - linux/ppc64le
+        - linux/s390x
+    - name: prefetch-input
+      value: '{"packages": [{"type": "gomod", "path": "build"}]}'
   pipelineRef:
     params:
-    - name: url
-      value: https://github.com/redhat-openshift-builds/release.git
-    - name: revision
-      value: main
-    - name: pathInRepo
-      value: /pipelines/konflux-build-multi-platform.yaml
+      - name: url
+        value: https://github.com/redhat-openshift-builds/release.git
+      - name: revision
+        value: main
+      - name: pathInRepo
+        value: /pipelines/konflux-build-multi-platform.yaml
     resolver: git
   taskRunTemplate:
     serviceAccountName: build-pipeline-openshift-builds-image-processing-1-7
   workspaces:
-  - name: git-auth
-    secret:
-      secretName: '{{ git_auth_secret }}'
+    - name: git-auth
+      secret:
+        secretName: "{{ git_auth_secret }}"
 status: {}
