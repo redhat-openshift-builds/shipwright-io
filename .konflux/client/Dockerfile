@@ -2,9 +2,12 @@ FROM registry.redhat.io/ubi9/go-toolset@sha256:359dd4c6c4255b3f7bce4dc15ffa5a9aa
 
 ENV GOEXPERIMENT=strictfipsruntime
 
+USER 0
+
 COPY hack/build-binary.sh build-binary.sh
 COPY cli cli
 
+RUN mkdir -p /releases
 RUN OUTPUT_DIR="/releases" ./build-binary.sh
 
 LABEL \ 
@@ -22,3 +25,5 @@ LABEL \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
     vendor="Red Hat, Inc." \
     version="v1.7.0"
+
+USER 65532:65532

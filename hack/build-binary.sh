@@ -5,7 +5,7 @@ APP_NAME="shp"
 VERSION="main"
 # Use absolute path for output so it works regardless of where we 'cd' later
 # This creates 'releases' in the directory where the script is run
-OUTPUT_DIR="$(pwd)/releases"
+OUTPUT_DIR="${OUTPUT_DIR:-$(pwd)/releases}"
 SRC_DIR="cli"
 BUILD_PATH="./cmd/shp"
 
