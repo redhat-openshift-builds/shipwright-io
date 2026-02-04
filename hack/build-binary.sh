@@ -2,7 +2,7 @@
 set -e  # Exit immediately if a command exits with a non-zero status
 
 APP_NAME="shp"
-VERSION="main"
+VERSION="${VERSION:-main}"
 # Use absolute path for output so it works regardless of where we 'cd' later
 # This creates 'releases' in the directory where the script is run
 OUTPUT_DIR="${OUTPUT_DIR:-$(pwd)/releases}"
@@ -43,7 +43,7 @@ for target in "${TARGETS[@]}"; do
     # Binary name (needs .exe on Windows to run)
     BINARY_FILENAME="${APP_NAME}-${GOOS}-${GOARCH}${EXT}"
     # Archive name (clean, no .exe in the tar.gz filename)
-    ARCHIVE_FILENAME="openshift-build-client-${VERSION}-${GOOS}-${GOARCH}.tar.gz"
+    ARCHIVE_FILENAME="openshift-builds-client-${VERSION}-${GOOS}-${GOARCH}.tar.gz"
     
     FULL_BINARY_PATH="${OUTPUT_DIR}/${BINARY_FILENAME}"
 
