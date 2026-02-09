@@ -5,7 +5,7 @@ ENV GOEXPERIMENT=strictfipsruntime
 COPY hack/build-binary.sh build-binary.sh
 COPY cli cli
 
-RUN OUTPUT_DIR="/releases" ./build-binary.sh
+RUN OUTPUT_DIR="/releases" VERSION="1.7.0" ./build-binary.sh
 
 LABEL \ 
     com.redhat.component="openshift-builds-client" \
@@ -22,3 +22,5 @@ LABEL \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
     vendor="Red Hat, Inc." \
     version="v1.7.0"
+
+USER 65532:65532
