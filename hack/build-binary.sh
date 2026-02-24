@@ -46,7 +46,7 @@ for target in "${TARGETS[@]}"; do
     # Binary name (needs .exe on Windows to run)
     BINARY_FILENAME="${APP_NAME}-${GOOS}-${GOARCH}${EXT}"
     # Archive name (clean, no .exe in the tar.gz filename)
-    ARCHIVE_FILENAME="openshift-builds-client-${PKG_VERSION}-${GOOS}-${GOARCH}.tar.gz"
+    ARCHIVE_FILENAME="openshift-builds-client-${GOOS}-${GOARCH}.tar.gz"
 
     FULL_BINARY_PATH="${OUTPUT_DIR}/${BINARY_FILENAME}"
 

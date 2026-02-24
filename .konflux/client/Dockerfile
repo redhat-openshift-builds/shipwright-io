@@ -2,6 +2,8 @@ FROM registry.redhat.io/ubi9/go-toolset@sha256:799cc027d5ad58cdc156b65286eb63899
 
 ENV GOEXPERIMENT=strictfipsruntime
 
+USER 0
+
 COPY hack/build-binary.sh build-binary.sh
 COPY cli cli
 
