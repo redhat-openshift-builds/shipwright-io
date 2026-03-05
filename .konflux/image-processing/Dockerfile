@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi9/go-toolset@sha256:6983c6e7023236d1b5093c75c94402c7bdfd43c36ed9c34f2feda72a0ea7c8b1 AS builder
+FROM registry.redhat.io/ubi9/go-toolset@sha256:e4210398439060b5e7bbea2dc5ee532b3b85911e64924c3a81a645553c2ab240 AS builder
 
 ENV GOEXPERIMENT=strictfipsruntime
 
