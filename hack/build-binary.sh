@@ -2,10 +2,13 @@
 set -e  # Exit immediately if a command exits with a non-zero status
 
 APP_NAME="shp"
-VERSION="main"
+VERSION="${VERSION:-main}"
+# PKG_VERSION is used for archive filenames (e.g., "x-y")
+# Transforms VERSION: "x.y.z" -> "x-y" (major-minor only, with dash)
+PKG_VERSION="${PKG_VERSION:-$(echo "$VERSION" | cut -d. -f1,2 | tr '.' '-')}"
 # Use absolute path for output so it works regardless of where we 'cd' later
 # This creates 'releases' in the directory where the script is run
-OUTPUT_DIR="$(pwd)/releases"
+OUTPUT_DIR="${OUTPUT_DIR:-$(pwd)/releases}"
 SRC_DIR="cli"
 BUILD_PATH="./cmd/shp"
 
@@ -43,25 +46,27 @@ for target in "${TARGETS[@]}"; do
     # Binary name (needs .exe on Windows to run)
     BINARY_FILENAME="${APP_NAME}-${GOOS}-${GOARCH}${EXT}"
     # Archive name (clean, no .exe in the tar.gz filename)
-    ARCHIVE_FILENAME="openshift-build-client-${VERSION}-${GOOS}-${GOARCH}.tar.gz"
-    
+    ARCHIVE_FILENAME="openshift-builds-client-${GOOS}-${GOARCH}.tar.gz"
+
     FULL_BINARY_PATH="${OUTPUT_DIR}/${BINARY_FILENAME}"
 
     echo "[+] Building for $GOOS/$GOARCH..."
 
     # Build command targeting ./cmd/shp
-    env CGO_ENABLED=0 GOOS=$GOOS GOARCH=$GOARCH go build -ldflags="-s -w" -o "$FULL_BINARY_PATH" "$BUILD_PATH"
+    env CGO_ENABLED=0 GOOS=$GOOS GOARCH=$GOARCH \
+        go build -ldflags="-s -w -X github.com/shipwright-io/cli/pkg/shp/cmd/version.version=${VERSION}" \
+        -o "$FULL_BINARY_PATH" "$BUILD_PATH"
 
     # Package the binary
     # We temporarily switch to the output directory to tar the file cleanly
     pushd "$OUTPUT_DIR" > /dev/null
-    
+
     echo "    -> Packaging $ARCHIVE_FILENAME..."
     tar -czf "$ARCHIVE_FILENAME" "$BINARY_FILENAME"
-    
+
     # Remove the raw binary to save space
     rm "$BINARY_FILENAME"
-    
+
     popd > /dev/null
 done
 
