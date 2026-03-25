@@ -38,7 +38,7 @@ LABEL \
     io.k8s.display-name="Red Hat OpenShift Builds Waiter" \
     io.openshift.tags="builds,waiter" \
     maintainer="openshift-builds@redhat.com" \
-    name="openshift-builds/openshift-builds-waiter-rhel9" \
+    name="openshift-builds/openshift-builds-waiters-rhel9" \
     release="1" \
     summary="Red Hat OpenShift Builds Waiter" \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
