@@ -1,8 +1,6 @@
 [submodule "cli"]
 	path = cli
-	url = https://github.com/shipwright-io/cli.git
-	branch = main
+	url = https://github.com/redhat-openshift-builds/shipwright-io-cli.git
 [submodule "build"]
 	path = build
-	url = https://github.com/shipwright-io/build.git
-	branch = main
+	url = https://github.com/redhat-openshift-builds/shipwright-io-build.git
