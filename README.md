@@ -61,3 +61,39 @@ The `rpms.lock.yaml` file contains resolved dependencies for packages needed by 
 - **Podman errors**: Ensure Podman Desktop is running and the machine is started
 - **Network issues**: Verify internet connectivity to access UBI repositories
 - **Permission errors**: The container runs as the current user, so file permissions should be preserved
+
+## Bumping Upstream Submodules
+
+This repo tracks the `build` and `cli` upstream repositories as git submodules pointing at Red Hat mirror repos. Submodule SHAs are bumped deliberately -- there is no auto-tracking of upstream branches.
+
+### Prerequisites
+
+- `gh` CLI authenticated (`gh auth login`)
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) (recommended)
+
+### Using the Claude Code skill (recommended)
+
+The `/update-upstream` skill handles the full workflow for z-stream (patch) releases on `builds-X.Y` branches. It shows commit summaries, validates, checks out submodule SHAs, commits with signing, and creates PRs.
+
+```
+/update-upstream
+/update-upstream build
+/update-upstream cli
+/update-upstream build=<sha>
+/update-upstream cli=<sha>
+```
+
+When no SHA is specified, the skill updates to the latest commit from the tracked branch in `.gitmodules`. When both submodules are updated, the skill creates **two separate PRs** -- one per submodule. This is required because Konflux pipelines use the PR title prefix (`chore(deps): update build digest` or `chore(deps): update cli digest`) to decide which pipelines to run. Do not change the PR titles after creation.
+
+### Using the script directly
+
+The underlying script can also be run manually:
+
+```bash
+./hack/update-upstream.sh <submodule> [sha]
+```
+
+- `<submodule>` -- must be `build` or `cli`
+- `<sha>` -- (optional) the target commit SHA from the mirror repo (7-40 hex characters). If omitted, updates to the latest commit from the tracked branch in `.gitmodules`.
+
+The script validates the SHA (if provided) against the mirror repo, fetches, checks out the target commit, and stages the change. You then commit and create a PR manually.
