@@ -19,7 +19,7 @@ ENTRYPOINT ["/ko-app/bundle"]
 
 LABEL \
     com.redhat.component="openshift-builds-image-bundler" \
-    cpe="cpe:/a:redhat:openshift_builds:1.7::el9" \
+    cpe="cpe:/a:redhat:openshift_builds:1.8::el9" \
     description="Red Hat OpenShift Builds Image Bundler" \
     distribution-scope="public" \
     io.k8s.description="Red Hat OpenShift Builds Image Bundler" \
@@ -31,4 +31,4 @@ LABEL \
     summary="Red Hat OpenShift Builds Image Bundler" \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
     vendor="Red Hat, Inc." \
-    version="v1.7.0"
+    version="v1.8.0"

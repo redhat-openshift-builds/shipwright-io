@@ -11,7 +11,7 @@ RUN OUTPUT_DIR="/releases" VERSION="1.7.0" ./build-binary.sh
 
 LABEL \ 
     com.redhat.component="openshift-builds-client" \
-    cpe="cpe:/a:redhat:openshift_builds:1.7::el9" \
+    cpe="cpe:/a:redhat:openshift_builds:1.8::el9" \
     description="Red Hat OpenShift Builds Client" \
     distribution-scope="private" \
     io.k8s.description="Red Hat OpenShift Builds Client" \
@@ -23,6 +23,6 @@ LABEL \
     summary="Red Hat OpenShift Builds Client" \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
     vendor="Red Hat, Inc." \
-    version="v1.7.0"
+    version="v1.8.0"
 
 USER 65532:65532
