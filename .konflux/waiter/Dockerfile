@@ -31,7 +31,7 @@ ENTRYPOINT ["/ko-app/waiter"]
 
 LABEL \
     com.redhat.component="openshift-builds-waiter" \
-    cpe="cpe:/a:redhat:openshift_builds:1.7::el9" \
+    cpe="cpe:/a:redhat:openshift_builds:1.8::el9" \
     description="Red Hat OpenShift Builds Waiter" \
     distribution-scope="public" \
     io.k8s.description="Red Hat OpenShift Builds Waiter" \
@@ -43,4 +43,4 @@ LABEL \
     summary="Red Hat OpenShift Builds Waiter" \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
     vendor="Red Hat, Inc." \
-    version="v1.7.0"
+    version="v1.8.0"
