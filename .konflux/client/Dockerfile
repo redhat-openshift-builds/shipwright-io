@@ -7,7 +7,7 @@ USER 0
 COPY hack/build-binary.sh build-binary.sh
 COPY cli cli
 
-RUN OUTPUT_DIR="/releases" VERSION="1.7.0" ./build-binary.sh
+RUN OUTPUT_DIR="/releases" VERSION="1.8.0" ./build-binary.sh
 
 LABEL \ 
     com.redhat.component="openshift-builds-client" \
