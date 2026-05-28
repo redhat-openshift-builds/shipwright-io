@@ -4,5 +4,5 @@
 	branch = release-v0.18
 [submodule "build"]
 	path = build
-	url = https://github.com/shipwright-io/build.git
-	branch = release-v0.18
+	url = https://github.com/redhat-openshift-builds/shipwright-io-build.git
+	branch = builds-1.7
