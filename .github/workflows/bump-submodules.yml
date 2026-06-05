@@ -1,0 +1,170 @@
+name: Bump submodules
+
+on:
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+    inputs:
+      submodule:
+        description: Which submodule to bump
+        type: choice
+        options:
+          - both
+          - build
+          - cli
+        default: both
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: bump-submodules
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        submodule: [build, cli]
+    if: >-
+      github.repository == 'redhat-openshift-builds/shipwright-io'
+      && (
+        github.event_name == 'schedule'
+        || inputs.submodule == 'both'
+        || inputs.submodule == matrix.submodule
+      )
+    steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          submodules: true
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Record current SHA
+        id: old-sha
+        run: echo "sha=$(git -C ${{ matrix.submodule }} rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Update submodule
+        run: hack/update-upstream.sh ${{ matrix.submodule }}
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --cached --quiet ${{ matrix.submodule }}; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            new_sha=$(git -C ${{ matrix.submodule }} rev-parse HEAD)
+            short_sha=${new_sha:0:7}
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "new_sha=$new_sha" >> "$GITHUB_OUTPUT"
+            echo "short_sha=$short_sha" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check for existing PR
+        id: existing-pr
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          pr=$(gh pr list --state open --search "chore(deps): update ${{ matrix.submodule }} digest" --json number,headRefName --jq '.[0] // empty')
+          if [ -n "$pr" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "number=$(echo "$pr" | jq -r '.number')" >> "$GITHUB_OUTPUT"
+            echo "branch=$(echo "$pr" | jq -r '.headRefName')" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
+      - name: Resolve repo name
+        id: repo
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          case "${{ matrix.submodule }}" in
+            build) echo "name=redhat-openshift-builds/shipwright-io-build" >> "$GITHUB_OUTPUT" ;;
+            cli)   echo "name=redhat-openshift-builds/shipwright-io-cli" >> "$GITHUB_OUTPUT" ;;
+          esac
+
+      - name: Generate PR body
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          OLD_SHA="${{ steps.old-sha.outputs.sha }}"
+          NEW_SHA="${{ steps.changes.outputs.new_sha }}"
+          REPO="${{ steps.repo.outputs.name }}"
+          SUBMODULE="${{ matrix.submodule }}"
+          COMMITS=$(git -C "$SUBMODULE" log --oneline "${OLD_SHA}..${NEW_SHA}" | head -50)
+          {
+            echo "## Submodule update: \`${SUBMODULE}\`"
+            echo ""
+            echo "| | SHA |"
+            echo "|---|---|"
+            echo "| **Old** | \`${OLD_SHA}\` |"
+            echo "| **New** | \`${NEW_SHA}\` |"
+            echo ""
+            echo "### Commits"
+            echo ""
+            echo '```'
+            echo "$COMMITS"
+            echo '```'
+            echo ""
+            echo "[Full diff](https://github.com/${REPO}/compare/${OLD_SHA}...${NEW_SHA})"
+          } > /tmp/pr-body.md
+
+      - name: Update existing PR branch
+        if: steps.changes.outputs.changed == 'true' && steps.existing-pr.outputs.exists == 'true'
+        run: |
+          git checkout "${{ steps.existing-pr.outputs.branch }}"
+          git reset --hard main
+          hack/update-upstream.sh ${{ matrix.submodule }}
+          git commit -m "chore(deps): update ${{ matrix.submodule }} digest to ${{ steps.changes.outputs.short_sha }}"
+          git push --force-with-lease origin "${{ steps.existing-pr.outputs.branch }}"
+
+      - name: Update existing PR body
+        if: steps.changes.outputs.changed == 'true' && steps.existing-pr.outputs.exists == 'true'
+        run: |
+          gh pr edit "${{ steps.existing-pr.outputs.number }}" \
+            --title "chore(deps): update ${{ matrix.submodule }} digest to ${{ steps.changes.outputs.short_sha }}" \
+            --body-file /tmp/pr-body.md
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
+      - name: Create branch, commit, and push
+        if: steps.changes.outputs.changed == 'true' && steps.existing-pr.outputs.exists == 'false'
+        run: |
+          branch="auto/bump-${{ matrix.submodule }}-${{ steps.changes.outputs.short_sha }}"
+          git checkout -b "$branch"
+          git commit -m "chore(deps): update ${{ matrix.submodule }} digest to ${{ steps.changes.outputs.short_sha }}"
+          git push --force-with-lease origin "$branch"
+
+      - name: Create PR
+        id: create-pr
+        if: steps.changes.outputs.changed == 'true' && steps.existing-pr.outputs.exists == 'false'
+        run: |
+          pr_url=$(gh pr create \
+            --title "chore(deps): update ${{ matrix.submodule }} digest to ${{ steps.changes.outputs.short_sha }}" \
+            --body-file /tmp/pr-body.md \
+            --base main)
+          echo "url=$pr_url" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
+      - name: Enable auto-merge
+        if: steps.changes.outputs.changed == 'true' && steps.existing-pr.outputs.exists == 'false'
+        run: gh pr merge --auto --squash "${{ steps.create-pr.outputs.url }}"
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
