@@ -19,14 +19,14 @@ ENTRYPOINT ["./openshift-builds-controller"]
 
 LABEL \
     com.redhat.component="openshift-builds-controller" \
-    cpe="cpe:/a:redhat:openshift_builds:1.8::el9" \
+    cpe="cpe:/a:redhat:openshift_builds:1.8::el10" \
     description="Red Hat OpenShift Builds Controller" \
     distribution-scope="public" \
     io.k8s.description="Red Hat OpenShift Builds Controller" \
     io.k8s.display-name="Red Hat OpenShift Builds Controller" \
     io.openshift.tags="builds,controller" \
     maintainer="openshift-builds@redhat.com" \
-    name="openshift-builds/openshift-builds-controller-rhel9" \
+    name="openshift-builds/openshift-builds-controller-rhel10" \
     release="1" \
     summary="Red Hat OpenShift Builds Controller" \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
