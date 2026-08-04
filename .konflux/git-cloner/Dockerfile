@@ -10,29 +10,18 @@ FROM registry.access.redhat.com/hi/go@sha256:24a845aaae98720e94f76cfd396a1a73daa
 USER 0
 WORKDIR /
 
-# TARGETARCH comes from --platform (do not use uname -m; wrong under Mac/Podman qemu)
-ARG TARGETARCH=amd64
-
 RUN \
-  dnf install -y git curl tar gzip && \
-  case "${TARGETARCH}" in \
-    amd64) LFS_ARCH=linux-amd64 ;; \
-    arm64) LFS_ARCH=linux-arm64 ;; \
-    *) echo "unsupported TARGETARCH=${TARGETARCH}" >&2; exit 1 ;; \
-  esac && \
-  curl -fsSL -o /tmp/git-lfs.tgz \
-    "https://github.com/git-lfs/git-lfs/releases/download/v3.6.1/git-lfs-${LFS_ARCH}-v3.6.1.tar.gz" && \
-  tar -xzf /tmp/git-lfs.tgz -C /tmp && \
-  install -m 0755 /tmp/git-lfs-3.6.1/git-lfs /usr/bin/git-lfs && \
-  test -x /usr/bin/git-lfs && \
-  rm -rf /tmp/git-lfs.tgz /tmp/git-lfs-3.6.1 && \
+  dnf install -y git git-lfs && \
   dnf clean all && \
+  # The following setup is necessary so that this image can run as any user
   mkdir -p /shared-home/.docker /shared-home/.ssh && chmod -R 0777 /shared-home && \
+  # This is the default user that will be used when strategy steps use different runAs configuration.
+  # This must be in synchronization with our default configuration.
   echo 'nonroot:x:1000:1000:nonroot:/:/sbin/nologin' > /etc/passwd && \
   echo 'nonroot:x:1000:' > /etc/group
 
 ENV GODEBUG=fips140=on
-ENV PATH="/usr/bin:/usr/sbin:/ko-app:${PATH}"
+ENV PATH="$PATH:/ko-app"
 ENV HOME="/shared-home"
 
 COPY --from=builder /opt/app-root/src/openshift-builds-git-cloner /ko-app/git
