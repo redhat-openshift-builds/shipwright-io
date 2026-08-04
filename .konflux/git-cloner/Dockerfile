@@ -1,25 +1,38 @@
-FROM registry.redhat.io/ubi10/go-toolset@sha256:ad1d5e19331fc80c28a6193c1f8489af93b8f54d06766f174de6d4ce1ec6a191 AS builder
+FROM registry.access.redhat.com/hi/go@sha256:5fc103bed56527348adfac3c035f3402d28546c9818d8340dc5dd5f0e3d486fe AS builder
 
-ENV GOEXPERIMENT=strictfipsruntime
-
+WORKDIR /opt/app-root/src
 COPY build .
 
 RUN CGO_ENABLED=1 GO111MODULE=on go build -a -mod=vendor -ldflags="-s -w" -tags="strictfipsruntime" -o openshift-builds-git-cloner ./cmd/git
 
-FROM registry.redhat.io/ubi10-minimal@sha256:b217fa65d8c21058887b18f005f587e47a17dd1281a5196ac88d01724a273dbd
+FROM registry.access.redhat.com/hi/go@sha256:24a845aaae98720e94f76cfd396a1a73daa9f27ce5c4a600c20687739b4b8a84
+
+USER 0
+WORKDIR /
+
+# TARGETARCH comes from --platform (do not use uname -m; wrong under Mac/Podman qemu)
+ARG TARGETARCH=amd64
 
 RUN \
-  microdnf --assumeyes --nodocs install git git-lfs && \
-  microdnf clean all && \
-  rm -rf /var/cache/yum && \
-  # The following setup is necessary so that this image can run as any user
+  dnf install -y git curl tar gzip && \
+  case "${TARGETARCH}" in \
+    amd64) LFS_ARCH=linux-amd64 ;; \
+    arm64) LFS_ARCH=linux-arm64 ;; \
+    *) echo "unsupported TARGETARCH=${TARGETARCH}" >&2; exit 1 ;; \
+  esac && \
+  curl -fsSL -o /tmp/git-lfs.tgz \
+    "https://github.com/git-lfs/git-lfs/releases/download/v3.6.1/git-lfs-${LFS_ARCH}-v3.6.1.tar.gz" && \
+  tar -xzf /tmp/git-lfs.tgz -C /tmp && \
+  install -m 0755 /tmp/git-lfs-3.6.1/git-lfs /usr/bin/git-lfs && \
+  test -x /usr/bin/git-lfs && \
+  rm -rf /tmp/git-lfs.tgz /tmp/git-lfs-3.6.1 && \
+  dnf clean all && \
   mkdir -p /shared-home/.docker /shared-home/.ssh && chmod -R 0777 /shared-home && \
-  # This is the default user that will be used when strategy steps use different runAs configuration.
-  # This must be in synchronization with our default configuration.
   echo 'nonroot:x:1000:1000:nonroot:/:/sbin/nologin' > /etc/passwd && \
   echo 'nonroot:x:1000:' > /etc/group
 
-ENV PATH="$PATH:/ko-app"
+ENV GODEBUG=fips140=on
+ENV PATH="/usr/bin:/usr/sbin:/ko-app:${PATH}"
 ENV HOME="/shared-home"
 
 COPY --from=builder /opt/app-root/src/openshift-builds-git-cloner /ko-app/git
