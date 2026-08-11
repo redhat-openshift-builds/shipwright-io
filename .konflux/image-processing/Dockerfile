@@ -30,16 +30,16 @@ ENTRYPOINT ["/ko-app/image-processing"]
 
 LABEL \
     com.redhat.component="openshift-builds-image-processing" \
-    cpe="cpe:/a:redhat:openshift_builds:1.8::el9" \
+    cpe="cpe:/a:redhat:openshift_builds:1.9::el10" \
     description="Red Hat OpenShift Builds Image Processing" \
     distribution-scope="public" \
     io.k8s.description="Red Hat OpenShift Builds Image Processing" \
     io.k8s.display-name="Red Hat OpenShift Builds Image Processing" \
     io.openshift.tags="builds,image-processing" \
     maintainer="openshift-builds@redhat.com" \
-    name="openshift-builds/openshift-builds-image-processing-rhel9" \
+    name="openshift-builds/openshift-builds-image-processing-rhel10" \
     release="1" \
     summary="Red Hat OpenShift Builds Image Processing" \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
     vendor="Red Hat, Inc." \
-    version="v1.8.0"
+    version="v1.9.0"

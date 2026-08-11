@@ -31,16 +31,16 @@ ENTRYPOINT ["/ko-app/git"]
 
 LABEL \
     com.redhat.component="openshift-builds-git-cloner" \
-    cpe="cpe:/a:redhat:openshift_builds:1.8::el9" \
+    cpe="cpe:/a:redhat:openshift_builds:1.9::el10" \
     description="Red Hat OpenShift Builds git-cloner" \
     distribution-scope="public" \
     io.k8s.description="Red Hat OpenShift Builds Git Cloner" \
     io.k8s.display-name="Red Hat OpenShift Builds Git Cloner" \
     io.openshift.tags="builds,git-cloner" \
     maintainer="openshift-builds@redhat.com" \
-    name="openshift-builds/openshift-builds-git-cloner-rhel9" \
+    name="openshift-builds/openshift-builds-git-cloner-rhel10" \
     release="1" \
     summary="Red Hat OpenShift Builds git Cloner" \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
     vendor="Red Hat, Inc." \
-    version="v1.8.0"
+    version="v1.9.0"

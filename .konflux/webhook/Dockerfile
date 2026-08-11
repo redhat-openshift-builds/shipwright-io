@@ -19,16 +19,16 @@ ENTRYPOINT ["./openshift-builds-webhook"]
 
 LABEL \
     com.redhat.component="openshift-builds-webhook" \
-    cpe="cpe:/a:redhat:openshift_builds:1.8::el9" \
+    cpe="cpe:/a:redhat:openshift_builds:1.9::el10" \
     description="Red Hat OpenShift Builds Webhook" \
     distribution-scope="public" \
     io.k8s.description="Red Hat OpenShift Builds Webhook" \
     io.k8s.display-name="Red Hat OpenShift Builds Webhook" \
     io.openshift.tags="builds,webhook" \
     maintainer="openshift-builds@redhat.com" \
-    name="openshift-builds/openshift-builds-webhook-rhel9" \
+    name="openshift-builds/openshift-builds-webhook-rhel10" \
     release="1" \
     summary="Red Hat OpenShift Builds Webhook" \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
     vendor="Red Hat, Inc." \
-    version="v1.8.0"
+    version="v1.9.0"
