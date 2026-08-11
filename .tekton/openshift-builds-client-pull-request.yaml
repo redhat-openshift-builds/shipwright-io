@@ -42,6 +42,8 @@ spec:
         - linux/x86_64
     - name: prefetch-input
       value: '{"packages": [{"type": "gomod", "path": "build"}]}'
+    - name: enableSymlinkCheck
+      value: "false"
   pipelineRef:
     params:
       - name: url
