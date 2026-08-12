@@ -1,8 +1,7 @@
-FROM registry.redhat.io/ubi10/go-toolset@sha256:ad1d5e19331fc80c28a6193c1f8489af93b8f54d06766f174de6d4ce1ec6a191 AS builder
-
-ENV GOEXPERIMENT=strictfipsruntime
+FROM registry.access.redhat.com/hi/go@sha256:24a845aaae98720e94f76cfd396a1a73daa9f27ce5c4a600c20687739b4b8a84 AS builder
 
 USER 0
+RUN dnf install -y tar gzip && dnf clean all
 
 COPY hack/build-binary.sh build-binary.sh
 COPY cli cli
