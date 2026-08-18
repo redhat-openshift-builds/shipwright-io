@@ -46,6 +46,8 @@ spec:
         - linux/arm64
     - name: prefetch-input
       value: '{"packages": [{"type": "gomod", "path": "build"},{"type": "rpm"}]}'
+    - name: enableSymlinkCheck
+      value: "false"
   pipelineRef:
     params:
       - name: url
