@@ -27,8 +27,8 @@ LABEL \
     io.openshift.tags="builds,image-bundler" \
     maintainer="openshift-builds@redhat.com" \
     name="openshift-builds/openshift-builds-image-bundler-rhel9" \
-    release="1" \
+    release="3" \
     summary="Red Hat OpenShift Builds Image Bundler" \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
     vendor="Red Hat, Inc." \
-    version="v1.8.0"
+    version="v1.8.2"
