@@ -39,8 +39,8 @@ LABEL \
     io.openshift.tags="builds,git-cloner" \
     maintainer="openshift-builds@redhat.com" \
     name="openshift-builds/openshift-builds-git-cloner-rhel10" \
-    release="2" \
+    release="3" \
     summary="Red Hat OpenShift Builds git Cloner" \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
     vendor="Red Hat, Inc." \
-    version="v1.9.1"
+    version="v1.9.2"
