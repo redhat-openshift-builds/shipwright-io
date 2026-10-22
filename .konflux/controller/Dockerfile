@@ -27,8 +27,8 @@ LABEL \
     io.openshift.tags="builds,controller" \
     maintainer="openshift-builds@redhat.com" \
     name="openshift-builds/openshift-builds-controller-rhel10" \
-    release="2" \
+    release="3" \
     summary="Red Hat OpenShift Builds Controller" \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
     vendor="Red Hat, Inc." \
-    version="v1.9.1"
+    version="v1.9.2"
