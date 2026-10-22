@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi9/go-toolset@sha256:d4d25f236c2b3cd27eb407e3b3478bef0b75d644ee6d11772217f537be926b11 AS builder
+FROM registry.redhat.io/ubi9/go-toolset@sha256:edb9452603fa48e9882063f001ecd7d322add20f1564a4f05f38f6683be5ea94 AS builder
 
 ENV GOEXPERIMENT=strictfipsruntime
 
@@ -27,8 +27,8 @@ LABEL \
     io.openshift.tags="builds,webhook" \
     maintainer="openshift-builds@redhat.com" \
     name="openshift-builds/openshift-builds-webhook-rhel9" \
-    release="3" \
+    release="4" \
     summary="Red Hat OpenShift Builds Webhook" \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
     vendor="Red Hat, Inc." \
-    version="v1.8.2"
+    version="v1.8.3"

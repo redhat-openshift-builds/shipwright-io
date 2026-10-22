@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi9/go-toolset@sha256:d4d25f236c2b3cd27eb407e3b3478bef0b75d644ee6d11772217f537be926b11 AS builder
+FROM registry.redhat.io/ubi9/go-toolset@sha256:edb9452603fa48e9882063f001ecd7d322add20f1564a4f05f38f6683be5ea94 AS builder
 
 ENV GOEXPERIMENT=strictfipsruntime
 
@@ -9,7 +9,7 @@ COPY cli cli
 
 RUN OUTPUT_DIR="/releases" VERSION="1.8.0" ./build-binary.sh
 
-LABEL \ 
+LABEL \
     com.redhat.component="openshift-builds-client" \
     cpe="cpe:/a:redhat:openshift_builds:1.8::el9" \
     description="Red Hat OpenShift Builds Client" \
