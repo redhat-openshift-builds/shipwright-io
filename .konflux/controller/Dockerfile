@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi10/go-toolset@sha256:e94c38ff4a099b755af60c73ac87198c613f369eb7f818d45c96fbc3f21047de AS builder
+FROM registry.redhat.io/ubi10/go-toolset@sha256:05f3da136a4dbe077f30606e2e53a4f5cab185989c98309823ea06a9a1c52a50 AS builder
 
 ENV GOEXPERIMENT=strictfipsruntime
 
@@ -6,7 +6,7 @@ COPY build .
 
 RUN CGO_ENABLED=1 GO111MODULE=on go build -a -mod=vendor -ldflags="-s -w" -tags="strictfipsruntime" -o openshift-builds-controller ./cmd/shipwright-build-controller
 
-FROM registry.redhat.io/ubi10-minimal@sha256:f0c7b9ae9914fcf183e7c36fc46864903c2d2caf3af327421913ae54b3d29e94
+FROM registry.redhat.io/ubi10-minimal@sha256:cc3d766e796fbb50d6fcd599f4bad4c231aeae41822c6e86e7da664a996221ca
 
 ENV PATH="$PATH:/ko-app"
 
@@ -27,8 +27,8 @@ LABEL \
     io.openshift.tags="builds,controller" \
     maintainer="openshift-builds@redhat.com" \
     name="openshift-builds/openshift-builds-controller-rhel10" \
-    release="3" \
+    release="4" \
     summary="Red Hat OpenShift Builds Controller" \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
     vendor="Red Hat, Inc." \
-    version="v1.9.2"
+    version="v1.9.3"
