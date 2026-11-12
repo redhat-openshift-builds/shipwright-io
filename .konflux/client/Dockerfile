@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi9/go-toolset@sha256:0e3894cea4fc077084245e8aa2befc8a7d91a4f60fbf850f0b5b555cbe62ee26 AS builder
+FROM registry.redhat.io/ubi9/go-toolset@sha256:a2ad457dc7525635613d2355037239ca9bf4374ba3b59961d1cdaa4d5f1af7d8 AS builder
 
 ENV GOEXPERIMENT=strictfipsruntime
 
@@ -7,7 +7,7 @@ USER 0
 COPY hack/build-binary.sh build-binary.sh
 COPY cli cli
 
-RUN OUTPUT_DIR="/releases" VERSION="1.8.0" ./build-binary.sh
+RUN OUTPUT_DIR="/releases" VERSION="1.8.4" ./build-binary.sh
 
 LABEL \
     com.redhat.component="openshift-builds-client" \
@@ -19,10 +19,10 @@ LABEL \
     io.openshift.tags="builds,client" \
     maintainer="openshift-builds@redhat.com" \
     name="openshift-builds/openshift-builds-client-rhel9" \
-    release="1" \
+    release="5" \
     summary="Red Hat OpenShift Builds Client" \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
     vendor="Red Hat, Inc." \
-    version="v1.8.0"
+    version="v1.8.4"
 
 USER 65532:65532
