@@ -6,7 +6,7 @@ COPY build .
 
 RUN CGO_ENABLED=1 GO111MODULE=on go build -a -mod=vendor -ldflags="-s -w" -tags="strictfipsruntime" -o openshift-builds-image-bundler ./cmd/bundle
 
-FROM registry.redhat.io/ubi10-minimal@sha256:f0c7b9ae9914fcf183e7c36fc46864903c2d2caf3af327421913ae54b3d29e94
+FROM registry.redhat.io/ubi10-minimal@sha256:fb2f7f857cc60d88e3fad19da505083a682ca4569d7b55a61f64aaa43641f741
 
 ENV PATH="$PATH:/ko-app"
 
