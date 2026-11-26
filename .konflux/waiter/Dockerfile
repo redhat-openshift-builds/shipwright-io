@@ -39,8 +39,8 @@ LABEL \
     io.openshift.tags="builds,waiter" \
     maintainer="openshift-builds@redhat.com" \
     name="openshift-builds/openshift-builds-waiters-rhel10" \
-    release="3" \
+    release="4" \
     summary="Red Hat OpenShift Builds Waiter" \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
     vendor="Red Hat, Inc." \
-    version="v1.9.2"
+    version="v1.9.3"
