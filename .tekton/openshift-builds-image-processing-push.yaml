@@ -10,15 +10,15 @@ metadata:
       event == "push" &&
       target_branch == "main" &&
       (
-        files.all.exists(x, x.matches('.tekton/openshift-builds-image-processing-push.yaml|.konflux/image-processing')) ||
+        files.all.exists(x, x.matches('.tekton/openshift-builds-image-processing-1-25-push.yaml|.konflux/image-processing')) ||
         event_title.startsWith("chore(deps): update build digest") ||
         files.all.exists(x, x.matches('^build/.*'))
       )
   labels:
-    appstudio.openshift.io/application: openshift-builds
-    appstudio.openshift.io/component: openshift-builds-image-processing
+    appstudio.openshift.io/application: openshift-pipelines-1-25
+    appstudio.openshift.io/component: openshift-builds-image-processing-1-25
     pipelines.appstudio.openshift.io/type: build
-  name: openshift-builds-image-processing-on-push
+  name: openshift-builds-image-processing-1-25-on-push
   namespace: rh-openshift-builds-tenant
 spec:
   params:
@@ -27,7 +27,7 @@ spec:
     - name: revision
       value: "{{revision}}"
     - name: output-image
-      value: quay.io/redhat-user-workloads/rh-openshift-builds-tenant/openshift-builds-image-processing:{{revision}}
+      value: quay.io/redhat-user-workloads/rh-openshift-builds-tenant/openshift-builds-image-processing-1-25:{{revision}}
     - name: dockerfile
       value: .konflux/image-processing/Dockerfile
     - name: build-source-image
@@ -54,7 +54,7 @@ spec:
         value: /pipelines/konflux-build-multi-platform.yaml
     resolver: git
   taskRunTemplate:
-    serviceAccountName: build-pipeline-openshift-builds-image-processing
+    serviceAccountName: build-pipeline-openshift-builds-image-processing-1-25
   workspaces:
     - name: git-auth
       secret:
