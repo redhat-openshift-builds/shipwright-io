@@ -38,8 +38,8 @@ LABEL \
     io.openshift.tags="builds,image-processing" \
     maintainer="openshift-builds@redhat.com" \
     name="openshift-builds/openshift-builds-image-processing-rhel9" \
-    release="4" \
+    release="5" \
     summary="Red Hat OpenShift Builds Image Processing" \
     url="https://github.com/redhat-openshift-builds/shipwright-io" \
     vendor="Red Hat, Inc." \
-    version="v1.8.3"
+    version="v1.8.4"
